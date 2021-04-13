@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+    bot:
+        build: .
+        ports:
+            - "5000:5000"
+        env_file:
+            - secrets.env
+        tty: true
+        stdin_open: true
+    redis:
+        image: "redis:alpine"

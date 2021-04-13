@@ -1,0 +1,177 @@
+{
+    "markdown": "Greetings!",
+    "attachments": [
+        {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+                "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                "version": "1.2",
+                "type": "AdaptiveCard",
+                "body": [
+                    {
+                        "type": "ColumnSet",
+                        "columns": [
+                            {
+                                "type": "Column",
+                                "items": [
+                                    {
+                                        "type": "Image",
+                                        "style": "Person",
+                                        "url": "https://cdn1.iconfinder.com/data/icons/galaxy-open-line-color-i/200/alarm-512.png",
+                                        "size": "Medium",
+                                        "height": "50px"
+                                    }
+                                ],
+                                "width": "auto"
+                            },
+                            {
+                                "type": "Column",
+                                "items": [
+                                    {
+                                        "type": "TextBlock",
+                                        "text": "Cisco Webex Teams",
+                                        "weight": "Lighter",
+                                        "color": "Accent"
+                                    },
+                                    {
+                                        "type": "TextBlock",
+                                        "weight": "Bolder",
+                                        "text": "Reminder Bot",
+                                        "wrap": true,
+                                        "color": "Light",
+                                        "size": "Large",
+                                        "spacing": "Small"
+                                    }
+                                ],
+                                "width": "stretch"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "ColumnSet",
+                        "columns": [
+                            {
+                                "type": "Column",
+                                "width": 35,
+                                "items": [
+                                    {
+                                        "type": "TextBlock",
+                                        "text": "Release Date:",
+                                        "color": "Light"
+                                    },
+                                    {
+                                        "type": "TextBlock",
+                                        "text": "Version:",
+                                        "weight": "Lighter",
+                                        "color": "Light",
+                                        "spacing": "Small"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "Column",
+                                "width": 65,
+                                "items": [
+                                    {
+                                        "type": "TextBlock",
+                                        "text": "April 12, 2021",
+                                        "color": "Light"
+                                    },
+                                    {
+                                        "type": "TextBlock",
+                                        "text": "1.0.0",
+                                        "color": "Light",
+                                        "weight": "Lighter",
+                                        "spacing": "Small"
+                                    }
+                                ]
+                            }
+                        ],
+                        "spacing": "Padding",
+                        "horizontalAlignment": "Center"
+                    },
+                    {
+                        "type": "TextBlock",
+                        "text": "Reminder bot can help you remember to do things like join meetings on time, check-in on a time tracker, or take the kettle off the stove.",
+                        "wrap": true
+                    },
+                    {
+                        "type": "TextBlock",
+                        "text": "Don't forget to add me to a room before you create a reminder!",
+                        "weight": "Bolder",
+                        "wrap": true
+                    },
+                    {
+                        "type": "TextBlock",
+                        "text": "Here's some of the things I can do. Select an option below. Or ignore me, you know, it's fine...",
+                        "wrap": true
+                    },
+                    {
+                        "type": "ActionSet",
+                        "actions": [
+                            {
+                                "type": "Action.ShowCard",
+                                "title": "Create New Reminder",
+                                "card": {
+                                    "type": "AdaptiveCard",
+                                    "body": [
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "When would you like me to remind you?",
+                                            "weight": "Lighter"
+                                        },
+                                        {
+                                            "type": "Input.Date",
+                                            "id": "reminderDate"
+                                        },
+                                        {
+                                            "type": "Input.Time",
+                                            "id": "reminderTime"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "Where would you like me to remind you?",
+                                            "weight": "Lighter"
+                                        },
+                                        {
+                                            "type": "Input.Text",
+                                            "id": "reminderLocationText",
+                                            "placeholder": "A person's email"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "OR",
+                                            "weight": "Lighter"
+                                        },
+                                        {
+                                            "type": "Input.ChoiceSet",
+                                            "id": "reminderLocationToggle",
+                                            "placeholder": "Select a RoomID",
+                                            "choices": []
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "What is the reminder message?",
+                                            "weight": "Lighter"
+                                        },
+                                        {
+                                            "type": "Input.Text",
+                                            "id": "reminderMessage"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "Action.OpenUrl",
+                                "title": "Learn More",
+                                "url": "https://github.com/amthorn/webex-reminders"
+                            }
+                        ],
+                        "horizontalAlignment": "Center",
+                        "isVisible": true
+                    }
+                ]
+            }
+        }
+    ]
+}
