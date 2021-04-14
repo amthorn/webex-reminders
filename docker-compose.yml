@@ -1,12 +1,16 @@
 version: "3.9"
 services:
     bot:
-        build: .
+        x-aws-pull_policy: "arn:aws:secretsmanager:us-east-2:384777061532:secret:github_deployer-9ZnLEw"
+        image: docker.pkg.github.com/amthorn/webex-reminders/bot:latest
+        build:
+            context: .
         ports:
             - "5000:5000"
-        env_file:
-            - secrets.env
         tty: true
         stdin_open: true
-    redis:
-        image: "redis:alpine"
+        secrets:
+          - token
+secrets:
+    token:
+        file: secrets.json

@@ -5,8 +5,8 @@ from webexteamssdk import WebexTeamsAPI
 app = Flask(__name__)
 greeting_card = json.load(open('cards/greeting.json'))
 
-# Must have WEBEX_TEAMS_ACCESS_TOKEN set
-api = WebexTeamsAPI()
+secrets = json.load(open('/run/secrets/token'))
+api = WebexTeamsAPI(access_token=secrets['WEBEX_TEAMS_ACCESS_TOKEN'])
 
 
 @app.route('/greeting', methods=["POST"])

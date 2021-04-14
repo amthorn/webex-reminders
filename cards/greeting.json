@@ -122,11 +122,15 @@
                                         },
                                         {
                                             "type": "Input.Date",
-                                            "id": "reminderDate"
+                                            "id": "reminderDate",
+                                            "isRequired": true,
+                                            "errorMessage": "Don't forget to add a date to remind you!"
                                         },
                                         {
                                             "type": "Input.Time",
-                                            "id": "reminderTime"
+                                            "id": "reminderTime",
+                                            "isRequired": true,
+                                            "errorMessage": "Don't forget to add a time to remind you!"
                                         },
                                         {
                                             "type": "TextBlock",
@@ -156,7 +160,24 @@
                                         },
                                         {
                                             "type": "Input.Text",
-                                            "id": "reminderMessage"
+                                            "id": "reminderMessage",
+                                            "isRequired": true,
+                                            "errorMessage": "Don't forget a reminder message!"
+                                        },
+                                        {
+                                            "type": "ActionSet",
+                                            "actions": [
+                                                {
+                                                    "type": "Action.Submit",
+                                                    "title": "Reminde Me!",
+                                                    "data": {
+                                                        "createReminder": true
+                                                    },
+                                                    "style": "positive"
+                                                }
+                                            ],
+                                            "spacing": "None",
+                                            "horizontalAlignment": "Right"
                                         }
                                     ]
                                 }
