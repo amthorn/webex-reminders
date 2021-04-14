@@ -1,16 +1,39 @@
 version: "3.9"
 services:
     bot:
-        x-aws-pull_policy: "arn:aws:secretsmanager:us-east-2:384777061532:secret:github_deployer-9ZnLEw"
-        image: docker.pkg.github.com/amthorn/webex-reminders/bot:latest
+        image: avthorn/webex-reminders:latest
         build:
             context: .
         ports:
             - "5000:5000"
         tty: true
         stdin_open: true
+        command: bot.py
         secrets:
           - token
+        depends_on:
+          - redis
+        restart: always
+    watcher:
+        image: avthorn/webex-reminders:latest
+        build:
+            context: .
+        tty: true
+        stdin_open: true
+        restart: always
+        command: watcher.py
+        secrets:
+        - token
+        depends_on:
+        - redis
+    redis:
+        image: redis:6.2.1
+        restart: always
+        command: ["redis-server", "--appendonly", "yes"]
+        volumes:
+          - redis-data:/data
 secrets:
     token:
         file: secrets.json
+volumes:
+    redis-data:

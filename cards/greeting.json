@@ -117,7 +117,7 @@
                                     "body": [
                                         {
                                             "type": "TextBlock",
-                                            "text": "When would you like me to remind you?",
+                                            "text": "When would you like me to remind you? (EST)",
                                             "weight": "Lighter"
                                         },
                                         {
@@ -138,18 +138,9 @@
                                             "weight": "Lighter"
                                         },
                                         {
-                                            "type": "Input.Text",
-                                            "id": "reminderLocationText",
-                                            "placeholder": "A person's email"
-                                        },
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "OR",
-                                            "weight": "Lighter"
-                                        },
-                                        {
                                             "type": "Input.ChoiceSet",
-                                            "id": "reminderLocationToggle",
+                                            "id": "reminderLocationRoomID",
+                                            "isRequired": true,
                                             "placeholder": "Select a RoomID",
                                             "choices": []
                                         },

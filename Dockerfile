@@ -6,6 +6,7 @@ RUN rm requirements.txt
 
 COPY cards cards
 COPY bot.py bot.py
+COPY watcher.py watcher.py
 
 ENTRYPOINT ["python"]
 CMD ["bot.py"]
