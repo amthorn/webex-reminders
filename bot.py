@@ -12,7 +12,7 @@ greeting_card = json.load(open('cards/greeting.json'))
 
 secrets = json.load(open('/run/secrets/token'))
 api = WebexTeamsAPI(access_token=secrets['WEBEX_TEAMS_ACCESS_TOKEN'])
-db = redis.Redis(host='redis', port=6379, db=0)
+db = redis.Redis(host='127.0.0.1', port=6379, db=0)
 
 def roomsBothIn():
     rooms = []
