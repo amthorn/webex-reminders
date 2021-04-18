@@ -82,7 +82,7 @@ def card_submit() -> str:
         # 'reminderLocationRoomID': '',
         # 'reminderMessage': '',
         # 'reminderTime': ''}
-        if action.inputs.get('createReminder') is True:
+        if action.inputs.get('createReminder') == True:
             # if action.inputs.get('reminderLocationEmail') and action.inputs.get('reminderLocationRoomID'):
             #     api.messages.create(roomId=sender, text="You cannot provide both an email and a room! Try again:)")
             #     send_card(sender)
