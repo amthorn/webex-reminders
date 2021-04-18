@@ -1,0 +1,65 @@
+name: Continuous Integration
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:  
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.9.4
+          architecture: x64
+      - uses: actions/checkout@master
+      - uses: actions/cache@v2
+        id: save-deps
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
+      - name: Install Dependencies
+        if: steps.save-deps.outputs.cache-hit != 'true'
+        uses: py-actions/py-dependency-install@v2
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.9.4
+          architecture: x64
+      - uses: actions/checkout@master
+      - uses: actions/cache@v2
+        id: restore-deps
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
+      - uses: suo/flake8-github-action@releases/v1
+        with:
+          checkName: 'lint'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.9.4
+          architecture: x64
+      - uses: actions/checkout@master
+      - uses: actions/cache@v2
+        id: restore-deps
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
+      - run: ls -la .
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+      - run: ls -la ..
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+      - run: python -m pytest --cov . --cov-report xml tests
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+      - uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.xml
+          flag-name: Unit
