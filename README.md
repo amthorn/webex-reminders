@@ -8,7 +8,7 @@ An open-source interactive bot for creating scheduled reminders with Cisco Webex
 
 You can use the bot by sending a direct message to cxreminderbot@webex.bot as shown below.
 
-<img src="https://github.com/amthorn/webex-reminders/tree/master/docs/screen.png"/>
+<img src="https://raw.githubusercontent.com/amthorn/webex-reminders/master/docs/screen.png"/>
 
 You can also message the bot in a group chat. Just simply add the bot to the room, then tag cxreminderbot@webex.bot and the bot will send you the reminder card.
 
