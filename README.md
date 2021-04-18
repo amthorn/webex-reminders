@@ -1,6 +1,9 @@
 # webex-reminders
 
-<img src="https://it.wisc.edu/wp-content/uploads/WebexTeams-icon-color.png" width="50"/><br/>
+<img src="https://travis-ci.com/amthorn/webex-reminders.svg?branch=master"/><br/>
+
+<img src="https://it.wisc.edu/wp-content/uploads/WebexTeams-icon-color.png" width="50"/>
+<img src="https://cdn1.iconfinder.com/data/icons/galaxy-open-line-color-i/200/alarm-512.png" width="50"/><br/>
 
 An open-source interactive bot for creating scheduled reminders with Cisco Webex Teams.
 
