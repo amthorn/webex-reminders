@@ -1,10 +1,7 @@
 import json
-import traceback
 import datetime
-import pytz
 import redis
 import time
-from dateutil import parser
 from webexteamssdk import WebexTeamsAPI
 
 secrets = json.load(open('/run/secrets/token'))
@@ -24,7 +21,7 @@ while True:
                 print(f"Delivering reminder {timestamp}")
                 # Trigger reminder
                 api.messages.create(**json.loads(db.get(key).decode()))
-                
+
                 # atomic db pop
                 db.delete(key)
         time.sleep(1)
