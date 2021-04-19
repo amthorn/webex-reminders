@@ -53,8 +53,12 @@ jobs:
           path: ${{ env.pythonLocation }}
           key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
       - run: pytest --cov=bot tests
-        working-directory: ${{ env.GITHUB_WORKSPACE }}
       - run: coveralls debug --service=github
-        working-directory: ${{ env.GITHUB_WORKSPACE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
+      - name: Report to Deep Source
+        run: |
+          curl https://deepsource.io/cli | sh
+          ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
+        env: 
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
