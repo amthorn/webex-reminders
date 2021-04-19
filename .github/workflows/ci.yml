@@ -52,10 +52,6 @@ jobs:
         with:
           path: ${{ env.pythonLocation }}
           key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
-      - run: ls -la .
-        working-directory: ${{ env.GITHUB_WORKSPACE }}
-      - run: ls -la ..
-        working-directory: ${{ env.GITHUB_WORKSPACE }}
       - run: python -m pytest --cov . --cov-report xml tests
         working-directory: ${{ env.GITHUB_WORKSPACE }}
       - uses: coverallsapp/github-action@v1.1.2
