@@ -54,7 +54,7 @@ jobs:
           key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
       - run: pytest --cov . --cov-report xml tests
         working-directory: ${{ env.GITHUB_WORKSPACE }}
-      - run: coveralls --service=github
+      - run: coveralls debug --service=github
         working-directory: ${{ env.GITHUB_WORKSPACE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
