@@ -52,9 +52,9 @@ jobs:
         with:
           path: ${{ env.pythonLocation }}
           key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
-      - run: pytest --cov . --cov-report xml tests
+      - run: pytest --cov=bot tests
         working-directory: ${{ env.GITHUB_WORKSPACE }}
-      - run: coveralls debug --service=github
+      - run: coveralls --service=github
         working-directory: ${{ env.GITHUB_WORKSPACE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
