@@ -1,6 +1,6 @@
 # webex-reminders
 
-[![Continuous Integration](https://github.com/amthorn/webex-reminders/actions/workflows/ci.yml/badge.svg)](https://github.com/amthorn/webex-reminders/actions/workflows/ci.yml) [![Coverage Status](https://coveralls.io/repos/github/amthorn/webex-reminders/badge.svg?branch=master)](https://coveralls.io/github/amthorn/webex-reminders?branch=master) <img src="https://img.shields.io/uptimerobot/status/m787892776-ad4e72eee81c4b844a08948f"/> <img src="https://img.shields.io/github/license/amthorn/webex-reminders"/>
+[![Continuous Integration](https://github.com/amthorn/webex-reminders/actions/workflows/ci.yml/badge.svg)](https://github.com/amthorn/webex-reminders/actions/workflows/ci.yml) [![Coverage Status](https://coveralls.io/repos/github/amthorn/webex-reminders/badge.svg?branch=master)](https://coveralls.io/github/amthorn/webex-reminders?branch=master) <img src="https://img.shields.io/uptimerobot/status/m787894383-94557fe7e734abed20c9f2eb"/> <img src="https://img.shields.io/github/license/amthorn/webex-reminders"/>
 
 <img src="https://it.wisc.edu/wp-content/uploads/WebexTeams-icon-color.png" width="50"/><img src="https://cdn1.iconfinder.com/data/icons/galaxy-open-line-color-i/200/alarm-512.png" width="50"/><br/>
 

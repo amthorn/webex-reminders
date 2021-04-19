@@ -6,6 +6,7 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 RUN rm requirements.txt
 
+COPY docker-entrypoint.sh docker-entrypoint.sh
 COPY bot/ ./bot
 
-ENTRYPOINT ["python"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
