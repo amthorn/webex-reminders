@@ -57,4 +57,4 @@ jobs:
       - run: coveralls
         working-directory: ${{ env.GITHUB_WORKSPACE }}
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
