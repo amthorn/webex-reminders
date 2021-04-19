@@ -7,7 +7,7 @@ import webexteamssdk
 from dateutil import parser, tz
 from flask import Flask, request
 
-from controller import Controller
+from bot.controller import Controller
 
 app = Flask(__name__)
 greeting_card = json.load(open('bot/cards/greeting.json'))

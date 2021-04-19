@@ -2,7 +2,7 @@ import datetime
 import json
 import time
 
-from controller import Controller
+from bot.controller import Controller
 
 controller = Controller()
 
