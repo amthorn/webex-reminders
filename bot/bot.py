@@ -3,24 +3,22 @@ import json
 import traceback
 from typing import Union
 
-import redis
 import webexteamssdk
 from dateutil import parser, tz
 from flask import Flask, request
 
-app = Flask(__name__)
-greeting_card = json.load(open('cards/greeting.json'))
+from controller import Controller
 
-secrets = json.load(open('/run/secrets/token'))
-api = webexteamssdk.WebexTeamsAPI(access_token=secrets['WEBEX_TEAMS_ACCESS_TOKEN'])
-db = redis.Redis(host='127.0.0.1', port=6379, db=0)
+app = Flask(__name__)
+greeting_card = json.load(open('bot/cards/greeting.json'))
+controller = Controller()
 
 
 def rooms_both_in() -> list[webexteamssdk.models.immutable.Room]:
     rooms = []
-    for room in api.rooms.list():
+    for room in controller.api.rooms.list():
         if room.type == 'group':
-            for membership in api.memberships.list(roomId=room.id):
+            for membership in controller.api.memberships.list(roomId=room.id):
                 if request.json.get('data', {}).get('personId') == membership.personId:
                     rooms.append(room)
                     break
@@ -33,7 +31,7 @@ def save_reminder(
     date: datetime.datetime
 ) -> Union[str, int]:
     try:
-        return db.set(date.timestamp(), json.dumps({'roomId': room.id, 'markdown': message}).encode())
+        return controller.db.set(date.timestamp(), json.dumps({'roomId': room.id, 'markdown': message}).encode())
     except Exception as e:
         return send_unexpected_error(e)
 
@@ -42,7 +40,7 @@ def send_card(sender: str) -> None:
     dm = [{"title": "Direct Message", "value": request.json['data']['roomId']}]
     group_rooms = dm + [{"title": i.title, "value": i.id} for i in rooms_both_in()]
     greeting_card['attachments'][0]['content']['body'][5]['actions'][0]['card']['body'][4]['choices'] = group_rooms
-    api.messages.create(**greeting_card, roomId=sender)
+    controller.api.messages.create(**greeting_card, roomId=sender)
 
 
 def send_unexpected_error(e: Exception) -> str:
@@ -50,7 +48,7 @@ def send_unexpected_error(e: Exception) -> str:
         print(traceback.print_exc())
         print(e)
         message = f"An unexpected error occurred:( -- '{e}' -- Please reach out to my creator."
-        api.messages.create(text=message, roomId=request.json.get('data').get('personId'))
+        controller.api.messages.create(text=message, roomId=request.json.get('data').get('personId'))
         return 'OK'
     except Exception as exc:
         print(traceback.print_exc())
@@ -61,9 +59,9 @@ def send_unexpected_error(e: Exception) -> str:
 @app.route('/greeting', methods=["POST"])
 def greeting() -> str:
     try:
-        if api.people.me().id != request.json.get('data', {}).get('personId') and \
+        if controller.api.people.me().id != request.json.get('data', {}).get('personId') and \
                 (request.json.get('data', {}).get('roomType') == 'direct') or \
-                api.people.me().id in request.json.get('data', {}).get('mentionedPeople', []):
+                controller.api.people.me().id in request.json.get('data', {}).get('mentionedPeople', []):
             send_card(request.json['data']['roomId'])
             return 'OK'
         return ''
@@ -80,7 +78,7 @@ def healthcheck() -> str:
 def card_submit() -> str:
     try:
         request_payload = request.json
-        action = api.attachment_actions.get(request_payload['data']['id'])
+        action = controller.api.attachment_actions.get(request_payload['data']['id'])
         # This will work for direct or group chats
         sender = request_payload['data']['roomId']
         # {'createReminder': True,
@@ -98,12 +96,12 @@ def card_submit() -> str:
             #     send_card(sender)
             #     return 'NOT OK'
             if not action.inputs.get('reminderMessage'):
-                api.messages.create(roomId=sender, text="You must provide a reminder message! Try again:)")
+                controller.api.messages.create(roomId=sender, text="You must provide a reminder message! Try again:)")
                 send_card(sender)
                 return 'NOT OK'
 
             if not action.inputs.get('reminderDate') or not action.inputs.get('reminderTime'):
-                api.messages.create(roomId=sender, text="You must provide both a date and time! Try again:)")
+                controller.api.messages.create(roomId=sender, text="You must provide both a date and time! Try again:)")
                 send_card(sender)
                 return 'NOT OK'
 
@@ -115,13 +113,13 @@ def card_submit() -> str:
                 print(e)
                 message = "Date should be in the format 'XX-YY-ZZZZ' and time should be in the " + \
                     "format 'AA:BB:CC'! Try again:)"
-                api.messages.create(roomId=sender, text=message)
+                controller.api.messages.create(roomId=sender, text=message)
                 send_card(sender)
                 return 'NOT OK'
 
             if date <= (datetime.datetime.now(tz.tzutc()) + datetime.timedelta(seconds=5)):
                 message = "Date and time must be at least 5 seconds in the future! Try again:)"
-                api.messages.create(roomId=sender, text=message)
+                controller.api.messages.create(roomId=sender, text=message)
                 send_card(sender)
                 return 'NOT OK'
 
@@ -133,22 +131,23 @@ def card_submit() -> str:
             is_current_room = action.inputs.get('reminderLocationRoomID') == request_payload['data']['roomId']
             if action.inputs.get('reminderLocationRoomID') not in rooms_both_in() and not is_current_room:
                 message = "We both must have access to the location you want me to send the reminders in! Try again:)"
-                api.messages.create(roomId=sender, text=message)
+                controller.api.messages.create(roomId=sender, text=message)
                 send_card(sender)
                 return 'NOT OK'
 
             try:
-                room = api.rooms.get(action.inputs.get('reminderLocationRoomID'))
+                room = controller.api.rooms.get(action.inputs.get('reminderLocationRoomID'))
             except webexteamssdk.exceptions.ApiError:
-                api.messages.create(roomId=sender, text="I don't think I'm in that room. Please add me and try again:)")
+                message = "I don't think I'm in that room. Please add me and try again:)"
+                controller.api.messages.create(roomId=sender, text=message)
                 send_card(sender)
                 return 'NOT OK'
 
             message = action.inputs.get('reminderMessage')
-            nice_date = date.strftime("%A, %B %w %Y at %I:%M:%S %p")
+            nice_date = date.strftime("%A, %B %d %Y at %I:%M:%S %p")
             info = f'I will remind you via "{room.title}" on "{nice_date}" that "{message}"'
             save_reminder(room=room, message=message, date=date)
-            api.messages.create(roomId=sender, text=f"Reminder created successfully! Thank you:)\n\n{info}")
+            controller.api.messages.create(roomId=sender, text=f"Reminder created successfully! Thank you:)\n\n{info}")
 
         return 'OK'
     except Exception as e:

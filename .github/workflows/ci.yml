@@ -52,10 +52,9 @@ jobs:
         with:
           path: ${{ env.pythonLocation }}
           key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
-      - run: python -m pytest --cov . --cov-report xml tests
+      - run: pytest --cov . --cov-report xml tests
         working-directory: ${{ env.GITHUB_WORKSPACE }}
-      - uses: coverallsapp/github-action@v1.1.2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: coverage.xml
-          flag-name: Unit
+      - run: coveralls
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}

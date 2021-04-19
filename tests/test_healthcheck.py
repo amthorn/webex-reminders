@@ -1,4 +1,4 @@
 
 def test_healthcheck() -> None:
-    from bot import healthcheck
+    from bot.bot import healthcheck
     assert healthcheck() == 'OK'

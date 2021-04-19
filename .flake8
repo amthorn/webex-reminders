@@ -1,3 +1,5 @@
 [flake8]
 max-line-length = 120
+# ANN101 requires annotations for "self" argument
+ignore = ANN101
 exclude = .history
