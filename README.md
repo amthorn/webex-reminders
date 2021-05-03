@@ -16,7 +16,7 @@ You can also message the bot in a group chat. Just simply add the bot to the roo
 
 # Status
 
-You can check the uptime status of the bot here: https://stats.uptimerobot.com/pLrqDuzLDN
+You can check the uptime status of the bot here: https://stats.uptimerobot.com/ZrqoKhMRGq
 
 # Support
 
